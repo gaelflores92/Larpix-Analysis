@@ -33,41 +33,41 @@ Chip10 = pd.DataFrame({'chip_id' : 10,
              })
 
 def least_squares(Chip,Sigma,n):
-'''Returns array with first element being slope and its unceratinty and second element being the intercept along 
-with its uncertainty. n is used to cut off nonlinear parts'''
+    '''Returns array with first element being slope and its unceratinty and second element being the intercept along 
+    with its uncertainty. n is used to cut off nonlinear parts'''
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~Data~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~Data~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-x = Chip['Input Voltage(mV)'][n:]
-y = Chip['Output Voltage(mV)'][n:]
-sigma =Chip['sigma'][n:]                                        #Output voltage uncertainities
-chip_id = Chip['chip_id'][0]
+    x = Chip['Input Voltage(mV)'][n:]
+    y = Chip['Output Voltage(mV)'][n:]
+    sigma =Chip['sigma'][n:]                                        #Output voltage uncertainities
+    chip_id = Chip['chip_id'][0]
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~Math~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~Math~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-w = 1/(sigma**2)                                                #Weights from uncertainties
+    w = 1/(sigma**2)                                                #Weights from uncertainties
 
-Delta = sum(w)*sum(w*x**2) - sum(w*x)**2
+    Delta = sum(w)*sum(w*x**2) - sum(w*x)**2
 
-A = (sum(w*(x**2))*(sum(w*y)) - sum(w*x) * sum(w*x*y))/Delta    #Intercept prediction
-B = (sum(w) * sum(w*x*y) - (sum(w*x)*sum(w*y)))/Delta           #Slope prediction
+    A = (sum(w*(x**2))*(sum(w*y)) - sum(w*x) * sum(w*x*y))/Delta    #Intercept prediction
+    B = (sum(w) * sum(w*x*y) - (sum(w*x)*sum(w*y)))/Delta           #Slope prediction
 
-sigma_A = np.sqrt(sum(w*x**2)/Delta)                            #Intercept Uncertainty 
-sigma_B = np.sqrt(sum(w)/Delta)                                 #Slope Uncertainty
+    sigma_A = np.sqrt(sum(w*x**2)/Delta)                            #Intercept Uncertainty 
+    sigma_B = np.sqrt(sum(w)/Delta)                                 #Slope Uncertainty
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~Plots~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~Plots~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-fig,ax = plt.subplots()
+    fig,ax = plt.subplots()
 
-ax.plot(x,y,'r8',label = 'Measured')
-ax.plot(x,B*x + A , label = r'$Gain={:.3f}\pm{:.3f}, Intercept:({:.1f} \pm{:.1f})mV$'.format(B,sigma_B,A,sigma_A))
+    ax.plot(x,y,'r8',label = 'Measured')
+    ax.plot(x,B*x + A , label = r'$Gain={:.3f}\pm{:.3f}, Intercept:({:.1f} \pm{:.1f})mV$'.format(B,sigma_B,A,sigma_A))
 
-ax.set_xlabel('Input Voltage(mV)')
-ax.set_ylabel('Output Voltage(mV)')
-ax.set_title('Chip {} Gain'.format(chip_id))
-ax.legend()
+    ax.set_xlabel('Input Voltage(mV)')
+    ax.set_ylabel('Output Voltage(mV)')
+    ax.set_title('Chip {} Gain'.format(chip_id))
+    ax.legend()
 
-plt.rcParams['figure.figsize']=[16,8]
-plt.rcParams['font.size']=25
+    plt.rcParams['figure.figsize']=[16,8]
+    plt.rcParams['font.size']=25
 
-return np.array([np.array([B,sigma_B]),np.array([A,sigma_A])])
+    return np.array([np.array([B,sigma_B]),np.array([A,sigma_A])])    
