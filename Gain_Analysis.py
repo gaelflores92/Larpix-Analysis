@@ -8,7 +8,7 @@ from scipy import stats
 def line(x,slope,intercept):
     return (slope * x) + intercept
     
-    '''sigma values taken from Table 1 of the gain measurement protocol as bin error times sqrt(2)'''
+'''sigma values taken from Table 1 of the gain measurement protocol as bin error times sqrt(2)'''
 
 Chip3 = pd.DataFrame({'chip_id' : 3, 
                       'VDDA'    : 1.484 ,
