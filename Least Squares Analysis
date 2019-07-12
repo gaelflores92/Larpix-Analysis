@@ -70,4 +70,4 @@
             plt.rcParams['figure.figsize']=[16,8]
             plt.rcParams['font.size']=25
 
-            return np.array([np.array([B,sigma_B]),np.array([A,sigma_A])])                     
+            return np.array([np.array([B,sigma_B]),np.array([A,sigma_A])])
