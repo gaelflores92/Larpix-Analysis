@@ -32,7 +32,7 @@ Chip10 = pd.DataFrame({'chip_id' : 10,
                                             0.57735027,0.57735027,0.57735027,0.57735027])
              })
 
-def least_squares(Chip,Sigma,n):
+def least_squares(Chip,n):
     '''Returns array with first element being slope and its unceratinty and second element being the intercept along 
     with its uncertainty. n is used to cut off nonlinear parts'''
 
